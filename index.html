@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DUAL Studios — A video production company and collaborative studio in St. Paul, MN. Commercial, social, event, drone, and post-production services.">
+  <title>DUAL STUDIOS — Video Production &amp; Collaborative Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+/* ═══════════════════════════════════════════════════════
+   DUAL STUDIOS — styles.css
+   ═══════════════════════════════════════════════════════ */
+
+/* ── Reset & Tokens ── */
+*,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --smoke:   #141414;
+  --iron:    #1e1e1e;
+  --charcoal:#2e2e2e;
+  --graphite:#3a3a3a;
+  --ash:     #6b6b6b;
+  --stone:   #9a9a9a;
+  --fog:     #c8c8c8;
+  --cream:   #ece8e1;
+  --accent:  #c9a96e;
+  --accent-dim: #a8894f;
+  --serif:   'Instrument Serif', serif;
+  --sans:    'DM Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--smoke);
+  color: var(--fog);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ── Utilities ── */
+.container { max-width: 1360px; margin: 0 auto; }
+
+.section-tag {
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--ash); font-weight: 400;
+}
+.section-tag::before { content: '( '; color: var(--graphite); }
+.section-tag::after  { content: ' )'; color: var(--graphite); }
+
+.btn {
+  display: inline-block; padding: 14px 44px;
+  font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+  font-weight: 500; transition: all .35s; cursor: pointer;
+  font-family: var(--sans); border: none; text-align: center;
+}
+.btn-gold    { background: var(--accent); color: var(--smoke); }
+.btn-gold:hover { background: var(--accent-dim); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--fog); border: 1px solid var(--graphite); }
+.btn-outline:hover { border-color: var(--fog); color: var(--cream); }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes scrollPulse {
+  0%  { top: -100%; }
+  50% { top: 100%; }
+  100%{ top: 100%; }
+}
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.reveal {
+  opacity: 0; transform: translateY(48px);
+  transition: all .9s cubic-bezier(.23,1,.32,1);
+}
+.reveal.vis { opacity: 1; transform: translateY(0); }
+
+
+/* ═══════════════════════════════════════════════════════
+   NAVIGATION
+   ═══════════════════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 28px 48px; background: transparent; transition: all .5s;
+}
+nav.scrolled {
+  background: rgba(20,20,20,.96); backdrop-filter: blur(24px);
+  padding: 18px 48px; border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.nav-logo img { height: 28px; filter: brightness(1.2); }
+.nav-links { display: flex; gap: 40px; align-items: center; }
+.nav-links a {
+  font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--stone); transition: color .3s; font-weight: 400;
+}
+.nav-links a:hover { color: var(--cream); }
+.nav-cta-btn {
+  padding: 10px 32px; border: 1px solid var(--accent);
+  font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--accent); transition: all .35s; font-weight: 500;
+}
+.nav-cta-btn:hover { background: var(--accent); color: var(--smoke); }
+
+.burger { display: none; cursor: pointer; z-index: 1001; }
+.burger div { width: 22px; height: 1.5px; background: var(--fog); margin: 5px 0; transition: .4s; }
+
+.mobile-nav {
+  position: fixed; inset: 0; z-index: 999;
+  background: rgba(20,20,20,.98); backdrop-filter: blur(20px);
+  display: flex; flex-direction: column; justify-content: center;
+  align-items: center; gap: 28px;
+  opacity: 0; pointer-events: none; transition: opacity .4s;
+}
+.mobile-nav.open { opacity: 1; pointer-events: all; }
+.mobile-nav a {
+  font-family: var(--serif); font-size: 32px;
+  color: var(--fog); transition: color .3s;
+}
+.mobile-nav a:hover { color: var(--accent); }
+
+
+/* ═══════════════════════════════════════════════════════
+   HERO
+   ═══════════════════════════════════════════════════════ */
+.hero {
+  position: relative; min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  text-align: center; overflow: hidden; padding: 0 24px;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/a3974c28-de13-40ee-9101-e568a0d138a8/230324_STUDIO_CHARLES_413.jpg') center/cover no-repeat;
+}
+.hero-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(20,20,20,.55) 0%, rgba(20,20,20,.75) 50%, var(--smoke) 100%);
+}
+.hero-content { position: relative; z-index: 2; max-width: 960px; }
+.hero-logo { width: 300px; margin: 0 auto 56px; opacity: 0; animation: fadeUp 1s .2s forwards; }
+.hero-tagline {
+  font-family: var(--serif); font-size: clamp(36px,5.5vw,62px);
+  color: var(--cream); line-height: 1.15; letter-spacing: -1px;
+  opacity: 0; animation: fadeUp 1s .5s forwards;
+}
+.hero-tagline .accent { color: var(--accent); }
+
+/* Duality word-flip */
+.duality-strip {
+  display: flex; justify-content: center; gap: 80px; margin: 48px 0;
+  opacity: 0; animation: fadeUp 1s .8s forwards;
+}
+.duality-col { text-align: center; min-width: 140px; }
+.duality-col .label {
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--ash); margin-bottom: 10px;
+}
+.flip-word {
+  font-family: var(--serif); font-size: 24px; color: var(--cream);
+  height: 32px; overflow: hidden; position: relative;
+}
+.flip-word span {
+  display: block; position: absolute; width: 100%; text-align: center;
+  opacity: 0; transform: translateY(20px); transition: all .6s ease;
+}
+.flip-word span.active { opacity: 1; transform: translateY(0); }
+.dual-chevron { margin-top: 6px; opacity: .8; }
+
+.hero-sub {
+  font-size: 14px; color: var(--stone); margin-top: 16px;
+  letter-spacing: 1.5px; font-weight: 300; text-transform: uppercase;
+  opacity: 0; animation: fadeUp 1s 1s forwards;
+}
+.hero-ctas { display: flex; gap: 20px; justify-content: center; margin-top: 44px; opacity: 0; animation: fadeUp 1s 1.2s forwards; }
+
+.scroll-line {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  z-index: 2; width: 1px; height: 56px; background: var(--charcoal);
+  overflow: hidden; opacity: 0; animation: fadeUp 1s 1.4s forwards;
+}
+.scroll-line::after {
+  content: ''; position: absolute; top: -100%; left: 0;
+  width: 100%; height: 100%; background: var(--accent);
+  animation: scrollPulse 2.5s ease infinite;
+}
+
+
+/* ═══════════════════════════════════════════════════════
+   CLIENTS MARQUEE
+   ═══════════════════════════════════════════════════════ */
+.clients { padding: 72px 0 64px; overflow: hidden; border-bottom: 1px solid var(--iron); }
+.marquee-wrap { overflow: hidden; margin-top: 36px; }
+.marquee { display: flex; gap: 72px; animation: marquee 40s linear infinite; width: max-content; }
+.marquee img { height: 32px; opacity: .4; filter: grayscale(1) brightness(2.2); transition: opacity .4s; }
+.marquee img:hover { opacity: .7; }
+
+
+/* ═══════════════════════════════════════════════════════
+   ABOUT
+   ═══════════════════════════════════════════════════════ */
+.about { padding: 140px 48px; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+.about-headline {
+  font-family: var(--serif); font-size: clamp(30px,3.5vw,52px);
+  color: var(--cream); line-height: 1.2; margin-top: 20px;
+}
+.about-headline em { font-style: italic; color: var(--accent); }
+.about-text { font-size: 15px; line-height: 1.85; color: var(--stone); font-weight: 300; }
+.about-text + .about-text { margin-top: 20px; }
+.stats-row {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 32px;
+  margin-top: 56px; padding-top: 48px; border-top: 1px solid var(--iron);
+}
+.stat-val { font-family: var(--serif); font-size: 44px; color: var(--accent); line-height: 1; }
+.stat-lbl { font-size: 12px; color: var(--ash); margin-top: 8px; letter-spacing: .5px; }
+
+
+/* ═══════════════════════════════════════════════════════
+   BUYER'S JOURNEY
+   ═══════════════════════════════════════════════════════ */
+.journey {
+  padding: 100px 48px; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #1a1520 0%, #1e1418 50%, #14181e 100%);
+}
+.journey::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 40%, rgba(201,169,110,.06) 0%, transparent 60%);
+}
+.journey-inner { position: relative; z-index: 2; text-align: center; }
+.journey-headline {
+  font-family: var(--serif); font-size: clamp(28px,3.5vw,48px);
+  color: var(--cream); margin: 16px 0 12px;
+}
+.journey-sub { color: var(--stone); font-size: 15px; font-weight: 300; max-width: 640px; margin: 0 auto 60px; line-height: 1.7; }
+.journey-chart { position: relative; max-width: 1000px; margin: 0 auto; height: 340px; }
+.journey-chart svg { width: 100%; height: 100%; }
+
+
+/* ═══════════════════════════════════════════════════════
+   WORK / PORTFOLIO
+   ═══════════════════════════════════════════════════════ */
+.work { padding: 140px 48px; }
+.work-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+.work-title { font-family: var(--serif); font-size: clamp(32px,4vw,56px); color: var(--cream); margin-top: 12px; }
+
+.filter-tabs { display: flex; gap: 4px; margin-bottom: 48px; border-bottom: 1px solid var(--iron); }
+.filter-tab {
+  padding: 12px 24px; font-size: 12px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--ash); cursor: pointer;
+  background: none; border: none; font-family: var(--sans);
+  border-bottom: 2px solid transparent; transition: all .3s; margin-bottom: -1px;
+}
+.filter-tab:hover { color: var(--fog); }
+.filter-tab.active { color: var(--cream); border-bottom-color: var(--accent); }
+
+.work-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+.work-card {
+  position: relative; overflow: hidden; border-radius: 3px;
+  cursor: pointer; background: var(--iron);
+}
+.work-card-img {
+  width: 100%; aspect-ratio: 16/10; object-fit: cover;
+  transition: transform .7s cubic-bezier(.23,1,.32,1), filter .5s;
+}
+.work-card:hover .work-card-img { transform: scale(1.06); filter: brightness(.5); }
+.work-card-info {
+  position: absolute; bottom: 0; left: 0; right: 0; padding: 28px;
+  transform: translateY(10px); opacity: 0; transition: all .4s ease;
+}
+.work-card:hover .work-card-info { opacity: 1; transform: translateY(0); }
+.work-card-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+.work-card-name  { font-size: 22px; color: var(--cream); font-weight: 500; }
+.work-card-desc  { font-size: 13px; color: var(--stone); margin-top: 6px; font-weight: 300; }
+.work-card-tags  { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+.work-tag {
+  padding: 4px 12px; font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; border: 1px solid var(--graphite);
+  color: var(--stone); border-radius: 2px;
+}
+
+.work-card.feat { grid-column: span 2; }
+.work-card.feat .work-card-img { aspect-ratio: 16/9; }
+
+.more-btn {
+  display: block; margin: 56px auto 0; padding: 14px 52px;
+  border: 1px solid var(--graphite); background: transparent;
+  color: var(--fog); font-size: 11px; letter-spacing: 2.5px;
+  text-transform: uppercase; cursor: pointer; transition: all .35s;
+  font-family: var(--sans);
+}
+.more-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+
+/* ═══════════════════════════════════════════════════════
+   NUMBERS
+   ═══════════════════════════════════════════════════════ */
+.numbers {
+  padding: 140px 48px; position: relative;
+  background: url('https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/8652c515-652b-4cd8-8cca-6638587043a1/230324_STUDIO_CHARLES_361.jpg') center/cover fixed;
+}
+.numbers::before { content: ''; position: absolute; inset: 0; background: rgba(20,20,20,.88); }
+.numbers-inner { position: relative; z-index: 2; text-align: center; }
+.numbers-headline { font-family: var(--serif); font-size: clamp(32px,4vw,56px); color: var(--cream); margin: 16px 0 72px; }
+.numbers-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 48px; max-width: 1100px; margin: 0 auto; }
+.num-val  { font-family: var(--serif); font-size: clamp(44px,5vw,76px); color: var(--accent); line-height: 1; }
+.num-desc { font-size: 13px; color: var(--stone); margin-top: 12px; font-weight: 300; line-height: 1.5; }
+
+
+/* ═══════════════════════════════════════════════════════
+   SERVICES
+   ═══════════════════════════════════════════════════════ */
+.services { padding: 140px 48px; }
+.services-title { font-family: var(--serif); font-size: clamp(32px,4vw,56px); color: var(--cream); margin: 12px 0 72px; }
+.service-row {
+  display: grid; grid-template-columns: 80px 280px 1fr; gap: 40px;
+  padding: 44px 0; border-top: 1px solid var(--iron);
+  align-items: start; cursor: pointer; transition: all .3s;
+}
+.service-row:last-child { border-bottom: 1px solid var(--iron); }
+.service-row:hover { background: rgba(255,255,255,.015); padding-left: 16px; }
+.svc-num  { font-family: var(--serif); font-size: 52px; color: var(--charcoal); transition: color .4s; line-height: 1; }
+.service-row:hover .svc-num { color: var(--accent); }
+.svc-name { font-size: 22px; color: var(--cream); font-weight: 500; padding-top: 12px; }
+.svc-desc { font-size: 14px; color: var(--ash); line-height: 1.75; font-weight: 300; padding-top: 12px; }
+
+
+/* ═══════════════════════════════════════════════════════
+   PROCESS
+   ═══════════════════════════════════════════════════════ */
+.process { padding: 140px 48px; background: var(--iron); }
+.process-title { font-family: var(--serif); font-size: clamp(32px,4vw,56px); color: var(--cream); margin: 12px 0 72px; text-align: center; }
+.process-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; }
+.step { padding: 36px 28px; border-left: 2px solid var(--charcoal); transition: border-color .4s; }
+.step:hover { border-left-color: var(--accent); }
+.step-num  { font-family: var(--serif); font-size: 13px; color: var(--accent); letter-spacing: 1px; margin-bottom: 20px; }
+.step-name { font-size: 18px; color: var(--cream); font-weight: 500; margin-bottom: 14px; }
+.step-text { font-size: 13px; color: var(--ash); line-height: 1.75; font-weight: 300; }
+
+
+/* ═══════════════════════════════════════════════════════
+   STUDIO
+   ═══════════════════════════════════════════════════════ */
+.studio { padding: 140px 48px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: center; }
+.studio-img { width: 100%; aspect-ratio: 5/4; object-fit: cover; border-radius: 3px; }
+.studio-headline { font-family: var(--serif); font-size: clamp(28px,3vw,44px); color: var(--cream); margin: 16px 0 24px; line-height: 1.2; }
+.studio-text { font-size: 15px; color: var(--stone); line-height: 1.8; font-weight: 300; }
+.studio-features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+.studio-feat { font-size: 12px; color: var(--ash); padding-left: 16px; border-left: 1px solid var(--graphite); letter-spacing: .5px; }
+
+
+/* ═══════════════════════════════════════════════════════
+   TESTIMONIAL
+   ═══════════════════════════════════════════════════════ */
+.testimonial { padding: 140px 48px; background: linear-gradient(180deg,var(--smoke) 0%,var(--iron) 50%,var(--smoke) 100%); }
+.testimonial-inner { max-width: 880px; margin: 0 auto; text-align: center; }
+.quote-mark { font-size: 100px; color: var(--accent); opacity: .4; line-height: .5; font-style: normal; display: block; margin-bottom: 16px; }
+.testimonial-quote {
+  font-family: var(--serif); font-size: clamp(22px,2.8vw,36px);
+  color: var(--cream); line-height: 1.45; font-style: italic;
+}
+.testimonial-author { margin-top: 40px; }
+.testimonial-name { font-size: 15px; color: var(--cream); font-weight: 500; }
+.testimonial-role { font-size: 13px; color: var(--ash); margin-top: 4px; }
+
+
+/* ═══════════════════════════════════════════════════════
+   FAQ
+   ═══════════════════════════════════════════════════════ */
+.faq { padding: 140px 48px; }
+.faq-inner { max-width: 860px; margin: 0 auto; }
+.faq-title { font-family: var(--serif); font-size: clamp(32px,4vw,48px); color: var(--cream); margin: 12px 0 64px; text-align: center; }
+.faq-item { border-top: 1px solid var(--iron); }
+.faq-item:last-child { border-bottom: 1px solid var(--iron); }
+.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 28px 0; cursor: pointer; }
+.faq-q:hover h3 { color: var(--cream); }
+.faq-q h3 { font-size: 16px; font-weight: 400; color: var(--fog); transition: .3s; }
+.faq-icon { font-size: 22px; color: var(--graphite); transition: all .35s; font-weight: 300; flex-shrink: 0; margin-left: 24px; }
+.faq-item.open .faq-icon { transform: rotate(45deg); color: var(--accent); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height .5s ease, padding .4s; }
+.faq-item.open .faq-a { max-height: 300px; padding-bottom: 28px; }
+.faq-a p { font-size: 14px; color: var(--ash); line-height: 1.75; font-weight: 300; }
+
+
+/* ═══════════════════════════════════════════════════════
+   CTA
+   ═══════════════════════════════════════════════════════ */
+.cta-section {
+  padding: 180px 48px; text-align: center; position: relative;
+  background: url('https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/84597d02-7837-4416-a758-2453be690e19/FINAL+VAN+GOGH+9x16.00_02_28_07.Still013.jpg') center/cover;
+}
+.cta-section::before { content: ''; position: absolute; inset: 0; background: rgba(20,20,20,.82); }
+.cta-inner { position: relative; z-index: 2; }
+.cta-headline { font-family: var(--serif); font-size: clamp(38px,5.5vw,72px); color: var(--cream); margin-bottom: 20px; letter-spacing: -1px; }
+.cta-sub { font-size: 16px; color: var(--stone); max-width: 540px; margin: 0 auto 44px; line-height: 1.7; font-weight: 300; }
+
+
+/* ═══════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════ */
+footer { padding: 72px 48px 36px; border-top: 1px solid var(--iron); }
+.footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 64px; margin-bottom: 56px; }
+.footer-logo img { height: 24px; filter: brightness(1.1); margin-bottom: 20px; }
+.footer-desc { font-size: 13px; color: var(--ash); line-height: 1.6; max-width: 300px; }
+.footer-col h4 { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--ash); margin-bottom: 20px; font-weight: 500; }
+.footer-col a { display: block; font-size: 14px; color: var(--stone); margin-bottom: 12px; transition: color .3s; }
+.footer-col a:hover { color: var(--cream); }
+.footer-socials { display: flex; gap: 16px; margin-top: 16px; }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 28px; border-top: 1px solid var(--iron); font-size: 12px; color: var(--charcoal);
+}
+.footer-bottom a { color: var(--ash); transition: .3s; }
+.footer-bottom a:hover { color: var(--cream); }
+
+
+/* ═══════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .about, .studio { grid-template-columns: 1fr; gap: 48px; }
+  .work-grid { grid-template-columns: repeat(2,1fr); }
+  .work-card.feat { grid-column: span 2; }
+  .numbers-grid { grid-template-columns: repeat(2,1fr); gap: 48px; }
+  .process-grid { grid-template-columns: repeat(2,1fr); }
+  .service-row { grid-template-columns: 60px 1fr; }
+  .svc-desc { grid-column: 2; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 20px 24px; }
+  .nav-links { display: none; }
+  .burger { display: block; }
+  .hero-logo { width: 200px; }
+  .duality-strip { gap: 40px; }
+  .hero-ctas { flex-direction: column; align-items: center; gap: 12px; }
+  .work-grid { grid-template-columns: 1fr; }
+  .work-card.feat { grid-column: span 1; }
+  .numbers-grid { grid-template-columns: 1fr 1fr; }
+  .process-grid { grid-template-columns: 1fr; }
+  .filter-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .about, .work, .services, .faq, .studio, .cta-section, .numbers, .process, .testimonial,
+  .journey { padding-left: 24px !important; padding-right: 24px !important; }
+  .service-row { grid-template-columns: 1fr; gap: 12px; }
+  .svc-num { font-size: 36px; }
+  .svc-desc { grid-column: 1; }
+  .stats-row { grid-template-columns: 1fr; gap: 24px; }
+  .studio-features { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 40px; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  .work-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .journey-chart { height: 220px; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ NAV ════════════════════ -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/0bfefeed-6bce-4974-a3f3-7e1faa5aab5a/Dual_Logo_Smoke-Iron.png?format=750w" alt="DUAL STUDIOS" width="160" height="28">
+  </a>
+  <div class="nav-links">
+    <a href="#work">Work</a>
+    <a href="#services">Services</a>
+    <a href="#studio">Studio</a>
+    <a href="#about">About</a>
+    <a href="#contact" class="nav-cta-btn">Start a Project</a>
+  </div>
+  <div class="burger"><div></div><div></div><div></div></div>
+</nav>
+
+<div class="mobile-nav">
+  <a href="#work">Work</a>
+  <a href="#services">Services</a>
+  <a href="#studio">Studio</a>
+  <a href="#about">About</a>
+  <a href="#contact">Contact</a>
+</div>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <img class="hero-logo" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/0bfefeed-6bce-4974-a3f3-7e1faa5aab5a/Dual_Logo_Smoke-Iron.png?format=1500w" alt="DUAL STUDIOS" width="300" height="52">
+    <h1 class="hero-tagline">Where <span class="accent">balance</span> meets bold.<br>We create what moves people.</h1>
+
+    <!-- Duality concept: flashing words on each side -->
+    <div class="duality-strip">
+      <div class="duality-col">
+        <div class="label">Left Brain</div>
+        <div class="flip-word" id="flipLeft">
+          <span class="active">Account</span>
+          <span>Strategy</span>
+          <span>Logic</span>
+          <span>Commercial</span>
+        </div>
+      </div>
+      <div class="duality-col">
+        <svg class="dual-chevron" width="36" height="30" viewBox="0 0 36 30" fill="none" aria-hidden="true">
+          <path d="M18 2 L2 22 L10 22 L18 10 L26 22 L34 22 Z" fill="#c9a96e" opacity=".8"/>
+        </svg>
+      </div>
+      <div class="duality-col">
+        <div class="label">Right Brain</div>
+        <div class="flip-word" id="flipRight">
+          <span class="active">Creative</span>
+          <span>Vision</span>
+          <span>Emotion</span>
+          <span>Social</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="hero-sub">Video Production &amp; Collaborative Studio — St. Paul, MN</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn btn-gold">Start a Project</a>
+      <a href="#work" class="btn btn-outline">View Our Work</a>
+    </div>
+  </div>
+  <div class="scroll-line"></div>
+</section>
+
+<!-- ════════════════════ CLIENTS ════════════════════ -->
+<section class="clients">
+  <div class="section-tag" style="text-align:center;display:block;">Trusted By</div>
+  <div class="marquee-wrap">
+    <div class="marquee">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/c44f7483-ff51-499a-8f85-08cc2a2a18b6/Red-Bull-logo.png?format=300w" alt="Red Bull" height="32">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/63e88da4-ebb0-46e4-942b-e67ce1a91c23/Bvlgari-Logo+%281%29.png?format=300w" alt="Bulgari" height="32">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/c25de9e6-e99e-4576-952f-c4e25dfbc9b2/Lululemon-Symbol.png?format=300w" alt="Lululemon" height="32">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/71a79bd1-a319-4b5c-a68a-f6acb82e5f00/United-Healthcare-Logo.png?format=300w" alt="UnitedHealthcare" height="32">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/f4f25c94-ceea-4bd6-bf5d-e6e01226e47f/WiedenKennedy.png?format=300w" alt="Wieden+Kennedy" height="32">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/4283ca62-ee3a-4862-9a0e-6506a8da90e5/tedx-logo.png?format=300w" alt="TEDx" height="32">
+      <!-- duplicate for seamless loop -->
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/c44f7483-ff51-499a-8f85-08cc2a2a18b6/Red-Bull-logo.png?format=300w" alt="Red Bull" height="32">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/63e88da4-ebb0-46e4-942b-e67ce1a91c23/Bvlgari-Logo+%281%29.png?format=300w" alt="Bulgari" height="32">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/c25de9e6-e99e-4576-952f-c4e25dfbc9b2/Lululemon-Symbol.png?format=300w" alt="Lululemon" height="32">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/71a79bd1-a319-4b5c-a68a-f6acb82e5f00/United-Healthcare-Logo.png?format=300w" alt="UnitedHealthcare" height="32">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/f4f25c94-ceea-4bd6-bf5d-e6e01226e47f/WiedenKennedy.png?format=300w" alt="Wieden+Kennedy" height="32">
+      <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/4283ca62-ee3a-4862-9a0e-6506a8da90e5/tedx-logo.png?format=300w" alt="TEDx" height="32">
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ ABOUT ════════════════════ -->
+<section class="about container reveal" id="about">
+  <div>
+    <div class="section-tag">About</div>
+    <h2 class="about-headline">An <em>identical&nbsp;twin</em>&#8209;powered studio that brings decades of video creation expertise to your brand.</h2>
+  </div>
+  <div>
+    <p class="about-text">DUAL is a video production company and collaborative studio built on the premise that balance and collaboration are paramount to achieving greatness. Founded by identical twins Sam and Ben Brodsky, we bring complementary strengths — business strategy meets creative vision — to every project.</p>
+    <p class="about-text">We help you drive attention, build trust, and support real business goals. From international brands like Breitling and Coca-Cola to local innovators, we create content that generates leads, boosts engagement, and delivers ROI.</p>
+    <div class="stats-row">
+      <div><div class="stat-val">7+</div><div class="stat-lbl">Years in the industry</div></div>
+      <div><div class="stat-val">200+</div><div class="stat-lbl">Projects completed</div></div>
+      <div><div class="stat-val">50M+</div><div class="stat-lbl">Views generated</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ BUYER'S JOURNEY ════════════════════ -->
+<section class="journey reveal">
+  <div class="journey-inner container">
+    <div class="section-tag">How We Think</div>
+    <h2 class="journey-headline">We help you during the buyer's journey</h2>
+    <p class="journey-sub">We create content that guides your audience from first awareness through emotional connection to confident commitment.</p>
+    <div class="journey-chart">
+      <svg viewBox="0 0 1000 300" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Buyer journey emotional vs cognitive curve">
+        <line x1="0" y1="150" x2="1000" y2="150" stroke="#3a3a3a" stroke-width="1" stroke-dasharray="6 4" opacity=".5"/>
+        <text x="12" y="140" fill="#6b6b6b" font-size="10" font-family="DM Sans" letter-spacing="2">EMOTIONAL</text>
+        <text x="12" y="168" fill="#6b6b6b" font-size="10" font-family="DM Sans" letter-spacing="2">COGNITIVE</text>
+        <defs><linearGradient id="cg" x1="0" y1="0" x2="1000" y2="0">
+          <stop offset="0%" stop-color="#c9a96e" stop-opacity=".3"/>
+          <stop offset="25%" stop-color="#c9a96e"/>
+          <stop offset="75%" stop-color="#c9a96e"/>
+          <stop offset="100%" stop-color="#c9a96e" stop-opacity=".6"/>
+        </linearGradient></defs>
+        <path d="M40 200 C120 200,160 40,250 50 C340 60,400 250,520 260 C640 270,660 180,700 160 C740 140,780 80,830 90 C880 100,900 220,940 180 C960 160,970 150,990 150" stroke="url(#cg)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <circle cx="250" cy="50" r="5" fill="#c9a96e"/><text x="195" y="32" fill="#ece8e1" font-size="11" font-family="DM Sans">Emotional Connection</text>
+        <circle cx="520" cy="260" r="5" fill="#c9a96e"/><text x="462" y="288" fill="#ece8e1" font-size="11" font-family="DM Sans">Cognitive Country</text>
+        <circle cx="700" cy="160" r="5" fill="#c9a96e"/><text x="656" y="145" fill="#ece8e1" font-size="11" font-family="DM Sans">Shared Vision</text>
+        <circle cx="830" cy="90" r="5" fill="#c9a96e"/><text x="780" y="72" fill="#ece8e1" font-size="11" font-family="DM Sans">Last Minute Fear</text>
+        <circle cx="940" cy="180" r="5" fill="#c9a96e"/><text x="898" y="208" fill="#ece8e1" font-size="11" font-family="DM Sans">Commitment</text>
+        <text x="960" y="152" fill="#c9a96e" font-size="16" font-family="Instrument Serif" font-weight="700">"YES"</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ WORK / PORTFOLIO ════════════════════ -->
+<section class="work container" id="work">
+  <div class="work-header reveal">
+    <div>
+      <div class="section-tag">Portfolio</div>
+      <h2 class="work-title">Featured Work</h2>
+    </div>
+  </div>
+
+  <div class="filter-tabs reveal">
+    <button class="filter-tab active" data-filter="all">All</button>
+    <button class="filter-tab" data-filter="commercial">Commercial</button>
+    <button class="filter-tab" data-filter="social">Social</button>
+    <button class="filter-tab" data-filter="event">Event</button>
+    <button class="filter-tab" data-filter="drone">Drone</button>
+    <button class="filter-tab" data-filter="experimental">Experimental</button>
+  </div>
+
+  <div class="work-grid reveal">
+    <!-- 1 — Carmelo Anthony (featured wide) -->
+    <div class="work-card feat" data-cat="commercial">
+      <img class="work-card-img" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/84597d02-7837-4416-a758-2453be690e19/FINAL+VAN+GOGH+9x16.00_02_28_07.Still013.jpg" alt="Carmelo Anthony project">
+      <div class="work-card-info">
+        <div class="work-card-label">Featured Project</div>
+        <div class="work-card-name">Carmelo Anthony</div>
+        <div class="work-card-desc">Celebrity profile and brand campaign</div>
+        <div class="work-card-tags"><span class="work-tag">Commercial</span><span class="work-tag">Celebrity</span><span class="work-tag">Lifestyle</span></div>
+      </div>
+    </div>
+    <!-- 2 — Ford Raptor -->
+    <div class="work-card" data-cat="commercial">
+      <img class="work-card-img" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/a3974c28-de13-40ee-9101-e568a0d138a8/230324_STUDIO_CHARLES_413.jpg" alt="Ford Raptor project">
+      <div class="work-card-info">
+        <div class="work-card-label">Featured Project</div>
+        <div class="work-card-name">Ford Raptor</div>
+        <div class="work-card-desc">High-energy automotive campaign</div>
+        <div class="work-card-tags"><span class="work-tag">Commercial</span><span class="work-tag">Automotive</span></div>
+      </div>
+    </div>
+    <!-- 3 — Chipotle -->
+    <div class="work-card" data-cat="commercial social">
+      <img class="work-card-img" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/8652c515-652b-4cd8-8cca-6638587043a1/230324_STUDIO_CHARLES_361.jpg" alt="Chipotle project">
+      <div class="work-card-info">
+        <div class="work-card-label">Featured Project</div>
+        <div class="work-card-name">Chipotle</div>
+        <div class="work-card-desc">Social content and brand storytelling</div>
+        <div class="work-card-tags"><span class="work-tag">Commercial</span><span class="work-tag">Social</span><span class="work-tag">Food &amp; Bev</span></div>
+      </div>
+    </div>
+    <!-- 4 — Tony Awards -->
+    <div class="work-card" data-cat="event">
+      <img class="work-card-img" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/84597d02-7837-4416-a758-2453be690e19/FINAL+VAN+GOGH+9x16.00_02_28_07.Still013.jpg" alt="Tony Awards project" style="object-position:top;filter:brightness(.85) contrast(1.1)">
+      <div class="work-card-info">
+        <div class="work-card-label">Featured Project</div>
+        <div class="work-card-name">Tony Awards</div>
+        <div class="work-card-desc">Live event production and coverage</div>
+        <div class="work-card-tags"><span class="work-tag">Event</span><span class="work-tag">Entertainment</span><span class="work-tag">Live</span></div>
+      </div>
+    </div>
+    <!-- 5 — Laelia Tequila -->
+    <div class="work-card" data-cat="commercial social">
+      <img class="work-card-img" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/a3974c28-de13-40ee-9101-e568a0d138a8/230324_STUDIO_CHARLES_413.jpg" alt="Laelia Tequila project" style="filter:hue-rotate(15deg) saturate(1.1)">
+      <div class="work-card-info">
+        <div class="work-card-label">Featured Project</div>
+        <div class="work-card-name">Laelia Tequila</div>
+        <div class="work-card-desc">Premium spirits brand campaign</div>
+        <div class="work-card-tags"><span class="work-tag">Commercial</span><span class="work-tag">Social</span><span class="work-tag">Luxury</span></div>
+      </div>
+    </div>
+    <!-- 6 — Gala De Danza (featured wide) -->
+    <div class="work-card feat" data-cat="event drone">
+      <img class="work-card-img" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/8652c515-652b-4cd8-8cca-6638587043a1/230324_STUDIO_CHARLES_361.jpg" alt="Gala De Danza project" style="filter:brightness(.9) contrast(1.1)">
+      <div class="work-card-info">
+        <div class="work-card-label">Featured Project</div>
+        <div class="work-card-name">Gala De Danza</div>
+        <div class="work-card-desc">Immersive live dance performance capture</div>
+        <div class="work-card-tags"><span class="work-tag">Event</span><span class="work-tag">Drone</span><span class="work-tag">Experiential</span></div>
+      </div>
+    </div>
+    <!-- 7 — BioWear -->
+    <div class="work-card" data-cat="commercial social">
+      <img class="work-card-img" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/a3974c28-de13-40ee-9101-e568a0d138a8/230324_STUDIO_CHARLES_413.jpg" alt="BioWear project" style="filter:saturate(.8) brightness(.85)">
+      <div class="work-card-info">
+        <div class="work-card-label">Featured Project</div>
+        <div class="work-card-name">BioWear</div>
+        <div class="work-card-desc">Sustainable fashion brand content</div>
+        <div class="work-card-tags"><span class="work-tag">Commercial</span><span class="work-tag">Social</span><span class="work-tag">Fashion</span></div>
+      </div>
+    </div>
+    <!-- 8 — UFC -->
+    <div class="work-card" data-cat="commercial event">
+      <img class="work-card-img" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/84597d02-7837-4416-a758-2453be690e19/FINAL+VAN+GOGH+9x16.00_02_28_07.Still013.jpg" alt="UFC project" style="filter:contrast(1.2) brightness(.8)">
+      <div class="work-card-info">
+        <div class="work-card-label">Featured Project</div>
+        <div class="work-card-name">UFC</div>
+        <div class="work-card-desc">Combat sports promo and event coverage</div>
+        <div class="work-card-tags"><span class="work-tag">Commercial</span><span class="work-tag">Event</span><span class="work-tag">Sports</span></div>
+      </div>
+    </div>
+    <!-- 9 — Van Gogh Experience -->
+    <div class="work-card" data-cat="event experimental">
+      <img class="work-card-img" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/84597d02-7837-4416-a758-2453be690e19/FINAL+VAN+GOGH+9x16.00_02_28_07.Still013.jpg" alt="Van Gogh Experience project" style="filter:saturate(1.3)">
+      <div class="work-card-info">
+        <div class="work-card-label">Featured Project</div>
+        <div class="work-card-name">Van Gogh Experience</div>
+        <div class="work-card-desc">Immersive art exhibition capture</div>
+        <div class="work-card-tags"><span class="work-tag">Event</span><span class="work-tag">Experimental</span><span class="work-tag">Art</span></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="more-btn">View All Projects</button>
+</section>
+
+<!-- ════════════════════ NUMBERS ════════════════════ -->
+<section class="numbers reveal">
+  <div class="numbers-inner">
+    <div class="section-tag">Why Us</div>
+    <h2 class="numbers-headline">Numbers Don't Lie</h2>
+    <div class="numbers-grid">
+      <div><div class="num-val">50M+</div><div class="num-desc">Views on content we create and counting</div></div>
+      <div><div class="num-val">7+</div><div class="num-desc">Years of experience in creative industry</div></div>
+      <div><div class="num-val">200+</div><div class="num-desc">Projects delivered for top-tier brands</div></div>
+      <div><div class="num-val">100%</div><div class="num-desc">Client satisfaction and repeat partnerships</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ SERVICES ════════════════════ -->
+<section class="services container reveal" id="services">
+  <div class="section-tag">Services</div>
+  <h2 class="services-title">How We Can Help</h2>
+  <div class="service-row">
+    <div class="svc-num">01</div>
+    <div class="svc-name">Commercial Production</div>
+    <div class="svc-desc">Cut through the noise with ads that get you seen and drive conversions. From concept to delivery, we produce cinematic commercials that elevate your brand above the competition.</div>
+  </div>
+  <div class="service-row">
+    <div class="svc-num">02</div>
+    <div class="svc-name">Social &amp; Digital Content</div>
+    <div class="svc-desc">We engage audiences quickly and boost shares for viral reach. Platform-native content designed for TikTok, Instagram, YouTube, and LinkedIn that actually performs.</div>
+  </div>
+  <div class="service-row">
+    <div class="svc-num">03</div>
+    <div class="svc-name">Event &amp; Documentary</div>
+    <div class="svc-desc">We bring authentic stories forward that build emotional connections and loyalty. Live event coverage, recap videos, and documentary filmmaking that captures the moment.</div>
+  </div>
+  <div class="service-row">
+    <div class="svc-num">04</div>
+    <div class="svc-name">FPV Drone</div>
+    <div class="svc-desc">FPV drones allow the viewer to experience the world like never seen before. DUAL is one of the only video production companies in the nation that offers this cinematic service.</div>
+  </div>
+  <div class="service-row">
+    <div class="svc-num">05</div>
+    <div class="svc-name">Post-Production</div>
+    <div class="svc-desc">With over a decade of post-production experience and 2 editing suites with 8GB fiber speeds, we transform raw footage into awe-inspiring work. Editing, color grading, sound design, and VFX.</div>
+  </div>
+</section>
+
+<!-- ════════════════════ PROCESS ════════════════════ -->
+<section class="process reveal">
+  <div class="container">
+    <div class="section-tag" style="text-align:center">Process</div>
+    <h2 class="process-title">How We Work</h2>
+    <div class="process-grid">
+      <div class="step">
+        <div class="step-num">STEP 01</div>
+        <div class="step-name">Discovery</div>
+        <div class="step-text">Understanding your goals, pain points, audience, and developing a strong strategy for your project.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 02</div>
+        <div class="step-name">Concept Development</div>
+        <div class="step-text">We collaborate with your team to shape concepts that align with your brand. Market insights meets creative brainstorming to develop ideas that resonate and drive ROI.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 03</div>
+        <div class="step-name">Production</div>
+        <div class="step-text">From studio shoots to on-location production, we handle logistics and execution. This is where your vision comes to life while we stay closely connected with you.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">STEP 04</div>
+        <div class="step-name">Post-Production</div>
+        <div class="step-text">Expert editing, color grading, sound design, and effects to polish your video. Platform-ready content that works across channels and formats.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ STUDIO ════════════════════ -->
+<section class="studio container reveal" id="studio">
+  <img class="studio-img" src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/8652c515-652b-4cd8-8cca-6638587043a1/230324_STUDIO_CHARLES_361.jpg" alt="DUAL Studios creative space" width="680" height="544">
+  <div>
+    <div class="section-tag">Studio</div>
+    <h2 class="studio-headline">5,000 Sq Ft of Creative Space — Now Available for Rent</h2>
+    <p class="studio-text">Our multi-use studio is on the second floor of our Saint Paul facility and features a unique shooting space, a prep kitchen, production equipment, backdrops, and a full bar with electrical. A studio manager is on-site for all rentals.</p>
+    <div class="studio-features">
+      <div class="studio-feat">10+ backdrop colors</div>
+      <div class="studio-feat">8GB fiber up/down</div>
+      <div class="studio-feat">120" projector</div>
+      <div class="studio-feat">Full lighting kit</div>
+      <div class="studio-feat">C-stands &amp; grip gear</div>
+      <div class="studio-feat">Prep kitchen &amp; bar</div>
+    </div>
+    <a href="#contact" class="btn btn-outline" style="margin-top:40px">Book the Studio</a>
+  </div>
+</section>
+
+<!-- ════════════════════ TESTIMONIAL ════════════════════ -->
+<section class="testimonial reveal">
+  <div class="testimonial-inner">
+    <div class="section-tag">Testimonials</div>
+    <div style="margin-top:40px">
+      <span class="quote-mark">&ldquo;</span>
+      <p class="testimonial-quote">Working with DUAL has brought real results to our business. The creative quality they bring to every project is unmatched. A true creative partner that understands brand storytelling.</p>
+    </div>
+    <div class="testimonial-author">
+      <div class="testimonial-name">Dual Studios Clients</div>
+      <div class="testimonial-role">Breitling &middot; Red Bull &middot; Lululemon &middot; Wieden+Kennedy &amp; more</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ FAQ ════════════════════ -->
+<section class="faq reveal">
+  <div class="faq-inner">
+    <div class="section-tag" style="text-align:center">FAQ</div>
+    <h2 class="faq-title">Got Questions?</h2>
+    <div class="faq-item">
+      <div class="faq-q"><h3>What's your typical process for a new project?</h3><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p>We start with a discovery phase to understand your goals, audience, and competitors. From there, we move into strategy, concept development, production, and post — keeping you in the loop at every stage.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><h3>How long does a project usually take?</h3><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p>We move fast — as fast as you need. Timing is scoped to your specific needs. Our services flex whether you're producing a single hero piece or building a repeatable content system.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><h3>Do you offer packages or custom quotes?</h3><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p>Both. We have starter packages to keep things simple, but also offer custom quotes for projects with unique needs. Tell us what you're planning — we'll make it happen.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><h3>Can you work with our existing marketing team?</h3><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p>Absolutely. We seamlessly integrate and collaborate with your team so you feel confident sharing your brand's vision and goals. From idea to execution to delivery — we support marketing teams at every stage.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q"><h3>What sets DUAL apart from other production companies?</h3><span class="faq-icon">+</span></div>
+      <div class="faq-a"><p>The duality in our name is our superpower. We balance the strategic left brain with the creative right brain. We do both high-end commercial work and nimble social content. Plus, we have our own 5,000 sq ft studio, FPV drone capability, and an in-house post team.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ CTA ════════════════════ -->
+<section class="cta-section reveal" id="contact">
+  <div class="cta-inner">
+    <h2 class="cta-headline">Let's Work Together</h2>
+    <p class="cta-sub">Don't settle for mediocre video. Partner with a team that's delivered for Breitling, Red Bull, Lululemon, and more.</p>
+    <a href="mailto:sam@dualstudios.co" class="btn btn-gold">Get In Touch</a>
+  </div>
+</section>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer>
+  <div class="footer-top container">
+    <div>
+      <div class="footer-logo">
+        <img src="https://images.squarespace-cdn.com/content/v1/641356e67432590da9459404/0bfefeed-6bce-4974-a3f3-7e1faa5aab5a/Dual_Logo_Smoke-Iron.png?format=500w" alt="DUAL STUDIOS" width="140" height="24">
+      </div>
+      <p class="footer-desc">A video production company and collaborative studio in St.&nbsp;Paul,&nbsp;MN built on the premise that balance and collaboration are paramount to achieving greatness.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Links</h4>
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#studio">Studio</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="#services">Commercial</a>
+      <a href="#services">Social &amp; Digital</a>
+      <a href="#services">Event &amp; Documentary</a>
+      <a href="#services">FPV Drone</a>
+      <a href="#services">Post-Production</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:sam@dualstudios.co">sam@dualstudios.co</a>
+      <a href="tel:+16123883596">(612) 388-3596</a>
+      <a>360 Toronto St, St.&nbsp;Paul, MN 55102</a>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/dualstudios.co/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.linkedin.com/company/dualstudios" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom container">
+    <span>&copy; 2026 Dual Studios. All rights reserved.</span>
+    <a href="#">Privacy Policy</a>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   DUAL STUDIOS — main.js
+   ═══════════════════════════════════════════════════════ */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ── Nav scroll state ── */
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  /* ── Mobile nav toggle ── */
+  const burger = document.querySelector('.burger');
+  const mobileNav = document.querySelector('.mobile-nav');
+  if (burger && mobileNav) {
+    burger.addEventListener('click', () => mobileNav.classList.toggle('open'));
+    mobileNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileNav.classList.remove('open'));
+    });
+  }
+
+  /* ── Duality word-flip animation ── */
+  const flipLeft  = document.querySelectorAll('#flipLeft span');
+  const flipRight = document.querySelectorAll('#flipRight span');
+  let flipIdx = 0;
+
+  if (flipLeft.length && flipRight.length) {
+    setInterval(() => {
+      flipLeft.forEach(w  => w.classList.remove('active'));
+      flipRight.forEach(w => w.classList.remove('active'));
+      flipIdx = (flipIdx + 1) % flipLeft.length;
+      flipLeft[flipIdx].classList.add('active');
+      flipRight[flipIdx].classList.add('active');
+    }, 2200);
+  }
+
+  /* ── Scroll-reveal observer ── */
+  const reveals = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('vis');
+        revealObs.unobserve(e.target);   // fire once
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => revealObs.observe(r));
+
+  /* ── Portfolio filter tabs ── */
+  const tabs  = document.querySelectorAll('.filter-tab');
+  const cards = document.querySelectorAll('.work-card');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+
+      cards.forEach(card => {
+        const cats = card.dataset.cat || '';
+        if (filter === 'all' || cats.includes(filter)) {
+          card.style.display = '';
+          card.style.opacity = '1';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  /* ── FAQ accordion ── */
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      // close siblings
+      document.querySelectorAll('.faq-item').forEach(i => {
+        if (i !== item) i.classList.remove('open');
+      });
+      item.classList.toggle('open');
+    });
+  });
+
+  /* ── Smooth anchor offset for fixed nav ── */
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', e => {
+      const target = document.querySelector(anchor.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        const offset = 80;
+        const y = target.getBoundingClientRect().top + window.pageYOffset - offset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    });
+  });
+
+});
+
+</script>
+</body>
+</html>
